@@ -1,0 +1,1 @@
+This folder simulates a 'user settings' file, in which i save different settings from the game (gold, what the player has bought in the shop, user_name and gender, etc).

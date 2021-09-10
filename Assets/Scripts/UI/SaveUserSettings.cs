@@ -156,7 +156,7 @@ public class SaveUserSettings : MonoBehaviour
     // Change text
     public void ChangeText()
     {
-        if(textHolder.text != "" && textHolder.text.Length >= 1)
+        if(textHolder.text != "" && textHolder.text.Length >= 2)
             currentName = textHolder.text;
 
         if (currentName.Length <= 1)
