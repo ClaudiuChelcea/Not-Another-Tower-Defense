@@ -32,7 +32,7 @@ public class GameBalance : MonoBehaviour
     private const int gold_deupgrade_cost = -5;
 
     // Health related variables
-    private static int lives = 20;
+    public static int lives = 20;
     private const int DEFAULT_LIVES = 20;
     private const int health_upgrade_cost = 15;
     private const int health_deupgrade_cost = -10;

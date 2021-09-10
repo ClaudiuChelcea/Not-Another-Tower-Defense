@@ -24163,8 +24163,8 @@ MonoBehaviour:
   cannot_upgrade_anymore: {fileID: 1546233859}
   cannot_deupgrade_anymore: {fileID: 1626630686}
   cant_afford: {fileID: 958051596}
-  gold_price: {fileID: 0}
-  health_price: {fileID: 0}
+  gold_price: {fileID: 510735761}
+  health_price: {fileID: 427540442}
 --- !u!1 &1954368876
 GameObject:
   m_ObjectHideFlags: 0

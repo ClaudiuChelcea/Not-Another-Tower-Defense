@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UnitPlacementManager : MonoBehaviour
 {
-        public static UnitPlacementManager instance;
-        private bool game_paused = false;
-        public GameObject pause_menu;
+    public static UnitPlacementManager instance;
+    private bool game_paused = false;
+    public GameObject pause_menu;
 	public GameObject advanced_pause_menu;
 	private AudioSource bgmusic;
 	static public bool unit_is_selected = false;
+	public TextMeshProUGUI get_lives;
 
 	public void SetUnitSelectedTrue()
 	{
@@ -17,40 +19,41 @@ public class UnitPlacementManager : MonoBehaviour
 	}
 	
 	private void Awake()
+    {
+        if (instance != null)
         {
-                if (instance != null)
-                {
-                        Debug.LogError("More than one UnitPlacementManager in scene!");
-                }
-
-                 instance = this;
+            Debug.LogError("More than one UnitPlacementManager in scene!");
         }
 
-        public GameObject archerPrefab;
-        public GameObject knightPrefab;
+         instance = this;
+    }
 
-        private void Start()
-        {
-                unitToPlace = archerPrefab;
+    public GameObject archerPrefab;
+    public GameObject knightPrefab;
+
+    private void Start()
+    {
+	    unitToPlace = archerPrefab;
 		bgmusic = GetComponent<AudioSource>();
-        }
+		get_lives.text = GameBalance.lives.ToString();
+    }
 
-        private GameObject unitToPlace;
+    private GameObject unitToPlace;
 
-        public GameObject GetUnitToPlace()
-        {
-                return unitToPlace;
-        }
+    public GameObject GetUnitToPlace()
+    {
+	    return unitToPlace;
+    }
 
-        private void Update()
+    private void Update()
 	{
-		// On 'ESC' hold
-		PauseGame();
-		ResumeGame();
-		if (game_paused == true)
-			bgmusic.Pause();
-		else if (game_paused == false)
-			bgmusic.UnPause();
+	// On 'ESC' hold
+	PauseGame();
+	ResumeGame();
+	if (game_paused == true)
+		bgmusic.Pause();
+	else if (game_paused == false)
+		bgmusic.UnPause();
 	}
 
 	private void PauseGame()
@@ -84,7 +87,7 @@ public class UnitPlacementManager : MonoBehaviour
 
 	public void GoBack()
 	{
-                UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
 	}
 
 	// BG Music Volume
@@ -92,4 +95,11 @@ public class UnitPlacementManager : MonoBehaviour
 	{
 		bgmusic.volume = value;
 	}
+
+	void setLives()
+	{
+
+	}
+
+
 }
