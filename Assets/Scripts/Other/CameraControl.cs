@@ -15,7 +15,7 @@ public class CameraControl : MonoBehaviour
     {
         camera = GetComponent<Camera>();
         max_zoom = camera.orthographicSize;
-        ;
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
@@ -28,6 +28,6 @@ public class CameraControl : MonoBehaviour
         transform.RotateAround(tower.transform.position, Vector3.up, -rotDir * rotationSpeed * Time.deltaTime);
         // transform.Translate(Vector3.up * moveDir * moveSpeed * Time.deltaTime, Space.World);
        if(zoom > 0 || zoom < 0 && camera.orthographicSize < max_zoom)
-           camera.orthographicSize -= zoom * 2;
+           camera.orthographicSize -= zoom * 4;
     }
 }

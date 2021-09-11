@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -21,10 +23,32 @@ public class UnitPlacementManager : MonoBehaviour
 	public AudioClip explodesound;
 	private int current_enemies = 0;
 	private int next_enemies = 0;
+	public GameObject loseMenu, winMenu, mainCanvas;
+	private string fileName = "Assets/User/Balance.txt";
+	public static int global_enemies_deaths_count = 0;
+	public int lives_to_have_to_lose = 0, enemies_to_kill_to_win = 20;
 
 	public void SetUnitSelectedTrue()
 	{
 		UnitPlacementManager.unit_is_selected = true;
+	}
+
+	private void Reset()
+	{
+		game_paused = false;
+		current_units = 0;
+		next_units = 0;
+		current_enemies = 0;
+		next_enemies = 0;
+		global_enemies_deaths_count = 0;
+		get_lives.text = GameBalance.lives.ToString();
+		game_paused = false;
+		break_update = false;
+		mainCanvas.SetActive(true);
+		winMenu.SetActive(false);
+		loseMenu.SetActive(false);
+		Time.timeScale = 1;
+		break_update = false;
 	}
 
 	private void Awake()
@@ -35,16 +59,18 @@ public class UnitPlacementManager : MonoBehaviour
 		}
 
 		instance = this;
+
+		Reset();
 	}
 
 	public GameObject archerPrefab;
 	public GameObject knightPrefab;
+	private bool break_update = false;
 
 	private void Start()
 	{
 		unitToPlace = archerPrefab;
 		bgmusic = GetComponent<AudioSource>();
-		get_lives.text = GameBalance.lives.ToString();
 	}
 
 	private GameObject unitToPlace;
@@ -66,6 +92,39 @@ public class UnitPlacementManager : MonoBehaviour
 
 		ArcherSounds();
 		EnemiesSounds();
+		if (break_update == true)
+			return;
+		Lose();
+		Win();
+
+	}
+
+	private void Lose()
+	{
+		if (PathFollower.receive_lives == lives_to_have_to_lose)
+		{
+			loseMenu.SetActive(true);
+			Time.timeScale = 0;
+			mainCanvas.SetActive(false);
+			game_paused = true;
+			break_update = true;
+		}
+	}
+
+	private void Win()
+	{
+		if (global_enemies_deaths_count == enemies_to_kill_to_win)
+		{
+			winMenu.SetActive(true);
+			Time.timeScale = 0;
+			mainCanvas.SetActive(false);
+			GameBalance.starter_balance += 5;
+			game_paused = true;
+
+			File.Delete(fileName);
+			File.WriteAllText(fileName, GameBalance.starter_balance.ToString());
+			break_update = true;
+		}
 	}
 
 	private void EnemiesSounds()
@@ -73,7 +132,11 @@ public class UnitPlacementManager : MonoBehaviour
 		// Get enemies
 		next_enemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
 		if (next_enemies < current_enemies)
+		{
 			death.PlayOneShot(explodesound);
+			UnitPlacementManager.global_enemies_deaths_count++;
+		}
+
 		current_enemies = next_enemies;
 	}
 

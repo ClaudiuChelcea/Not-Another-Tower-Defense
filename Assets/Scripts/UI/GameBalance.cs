@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,7 +12,7 @@ public class GameBalance : MonoBehaviour
 {
     // Variables
     // Diamonds related variables
-    private int starter_balance = 0;
+    public static int starter_balance = 0;
     private const int DEFAULT_BALANCE = 20;
 
     // File related variables
@@ -92,7 +94,8 @@ public class GameBalance : MonoBehaviour
             starter_balance = DEFAULT_BALANCE;
         }
 
-        currency_text.text = starter_balance.ToString();
+        if(currency_text)
+            currency_text.text = starter_balance.ToString();
     }
 
     // Increase default gold regen
@@ -261,5 +264,10 @@ public class GameBalance : MonoBehaviour
         {
             gold_price.color = Color.red;
         }
+    }
+
+    private void Update()
+    {
+        currency_text.text = starter_balance.ToString();
     }
 }

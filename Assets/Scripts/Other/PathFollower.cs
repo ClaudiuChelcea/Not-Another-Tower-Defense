@@ -10,8 +10,9 @@ public class PathFollower : MonoBehaviour
     private int waypointIndex = 0;
 
     private IFollower followController;
-    private static int receive_lives;
+    public static int receive_lives;
     public TextMeshProUGUI lives_text;
+
 
     private void Start()
     {
@@ -54,9 +55,5 @@ public class PathFollower : MonoBehaviour
     {
         receive_lives = receive_lives - 2;
         lives_text.text = receive_lives.ToString();
-        if (receive_lives == 0)
-        {
-            Debug.Log("You lost menu! Restart! Main menu!");
-        }
     }
 }
