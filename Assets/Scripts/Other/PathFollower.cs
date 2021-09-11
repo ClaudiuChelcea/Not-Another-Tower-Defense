@@ -53,7 +53,7 @@ public class PathFollower : MonoBehaviour
 
     void HitCrystal()
     {
-        receive_lives = receive_lives - 2;
+        receive_lives = receive_lives - 5;
         lives_text.text = receive_lives.ToString();
     }
 }
