@@ -27,7 +27,6 @@ namespace Enemy
         private void CallSubscribers(int value)
         {
             OnDeath?.Invoke(25);
-            
         }
     }
 }

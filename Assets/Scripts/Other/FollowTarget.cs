@@ -1,3 +1,4 @@
+using Units;
 using UnityEngine;
 
 public class FollowTarget : MonoBehaviour, IFollower
@@ -5,7 +6,6 @@ public class FollowTarget : MonoBehaviour, IFollower
     [SerializeField] private Transform target;
     [SerializeField] private float stoppingDistance;
     [SerializeField] private float speed;
-
     [SerializeField] private AwarenessController awarenessController;
 
     private void OnEnable()
@@ -59,10 +59,18 @@ public class FollowTarget : MonoBehaviour, IFollower
 
         if (Vector3.Distance(Target.position, transform.position) < StoppingDistance)
         {
+            Explode();
             return;
         }
 
         Vector3 dir = Target.position - transform.position;
         transform.Translate(dir.normalized * Speed * Time.deltaTime, Space.World);
+    }
+
+    void Explode()
+    {
+        if(Target.tag == "Unit")
+            Target.GetComponent<HealthController>().TakeDamage(300f);
+        Destroy(this.gameObject);
     }
 }
